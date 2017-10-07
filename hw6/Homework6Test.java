@@ -69,6 +69,7 @@ public class Homework6Test {
 		System.out.println("-------Entry = " + numBoards + "--------");
 		System.out.println("Number of entries: " + numBoards);
 		System.out.println("Number of buckets: " + table.getBucketSize());
+		System.out.println("LoadFactor: " + table.getLoadFactor());
 		System.out.println("Expected collisions: " + table.getExpectedCollisions());
 		System.out.println("Actual collisions: " + table.getCollisions());
 		System.out.println(table);
@@ -80,6 +81,7 @@ public class Homework6Test {
 		System.out.println("-------Entry = " + numBoards + "--------");
 		System.out.println("Number of entries: " + numBoards);
 		System.out.println("Number of buckets: " + table.getBucketSize());
+		System.out.println("LoadFactor: " + table.getLoadFactor());
 		System.out.println("Expected collisions: " + table.getExpectedCollisions());
 		System.out.println("Actual collisions: " + table.getCollisions());
 		System.out.println(table);

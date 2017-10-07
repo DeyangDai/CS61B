@@ -27,6 +27,7 @@ public class HashTableChained implements Dictionary {
 	private int size;
 	private SList[] table;
 	private int collisions;
+	private double loadFactor;
 	
 	/**
 	 * Construct a new empty hash table intended to hold roughly sizeEstimate
@@ -37,6 +38,7 @@ public class HashTableChained implements Dictionary {
 	public HashTableChained(int sizeEstimate) {
 		// Your solution here.
 		size = 0;
+		loadFactor = 0;
 		collisions = 0;
 		int sizeOfTable = (int) (sizeEstimate / 0.75);
 		while(!NumUtil.isPrime(sizeOfTable)){
@@ -63,6 +65,10 @@ public class HashTableChained implements Dictionary {
 		return table.length;
 	}
 
+	public double getLoadFactor(){
+		return loadFactor;
+	}
+	
 	public double getExpectedCollisions(){
 		double result = 1 - 1.0 / table.length;
 		result = Math.pow(result, size) * table.length;
@@ -139,6 +145,7 @@ public class HashTableChained implements Dictionary {
 			collisions++;
 		table[index].insertBack(newEntry);
 		size++;
+		loadFactor = size / (table.length * 1.0);
 		return newEntry;
 	}
 
