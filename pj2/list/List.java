@@ -2,13 +2,15 @@
 
 package list;
 
+import util.Iterator;
+
 /**
  * A List is a mutable list ADT. No implementation is provided.
  *
  * DO NOT CHANGE THIS FILE.
  **/
 
-public abstract class List<T> {
+public abstract class List<T> implements Iterator<T>{
 
 	/**
 	 * size is the number of items in the list.

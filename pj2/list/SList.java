@@ -2,6 +2,9 @@
 
 package list;
 
+import java.util.LinkedList;
+import java.util.NoSuchElementException;
+
 /**
  * A SList is a mutable singly-linked list ADT. Its implementation employs a
  * tail reference.
@@ -18,6 +21,7 @@ public class SList<T> extends List<T> {
 
 	protected SListNode<T> head;
 	protected SListNode<T> tail;
+	protected SListNode<T> current;
 
 	/*
 	 * SList invariants: 1) Either head == null and tail == null, or tail.next
@@ -50,6 +54,7 @@ public class SList<T> extends List<T> {
 	public SList() {
 		head = null;
 		tail = null;
+		current = head;
 		size = 0;
 	}
 
@@ -256,5 +261,21 @@ public class SList<T> extends List<T> {
 			System.err.println("Caught InvalidNodeException that should not happen.");
 			System.err.println("Aborting the testing code.");
 		}
+	}
+
+	@Override
+	public boolean hasNext() {
+		if(current.next != null){
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public T next() {
+		if (!hasNext())
+            throw new NoSuchElementException();
+		current = current.next;
+		return current.item;
 	}
 }

@@ -3,6 +3,7 @@
 package player;
 
 import board.GameBoard;
+import board.Square;
 import list.InvalidNodeException;
 import list.List;
 
@@ -32,6 +33,10 @@ public class MachinePlayer extends Player {
 		opponentColor = 1 - color;
 		this.searchDepth = searchDepth;
 		board = new GameBoard();
+	}
+
+	private void showGameBoard(){
+		System.out.print(board);
 	}
 
 	// Returns a new move by "this" player. Internally records the move (updates
@@ -67,11 +72,25 @@ public class MachinePlayer extends Player {
 	// player. This method is used to help set up "Network problems" for your
 	// player to solve.
 	public boolean forceMove(Move m) {
-		if (board.isValidMove(m, color)) {
-			board.updateBoard(m, color);
+		if (board.isValidMove(m, board.getNextColor())) {
+			board.updateBoard(m, board.getNextColor());
 			return true;
 		}
 		return false;
 	}
 
+	public static void main(String[] args) {
+		MachinePlayer machinePlayer = new MachinePlayer(Square.WHITE);
+		machinePlayer.showGameBoard();
+		
+		machinePlayer.forceMove(new Move(0, 1));
+		System.out.println("add(0,1)");
+		machinePlayer.showGameBoard();
+		
+		machinePlayer.forceMove(new Move(1, 2));
+		System.out.println("add(1,2)");
+		machinePlayer.showGameBoard();
+		
+		
+	}
 }

@@ -2,6 +2,8 @@
 
 package list;
 
+import java.util.NoSuchElementException;
+
 /**
  * A DList is a mutable doubly-linked list ADT. Its implementation is
  * circularly-linked and employs a sentinel node at the head of the list.
@@ -20,6 +22,7 @@ public class DList<T> extends List<T> {
 	 **/
 
 	protected DListNode<T> head;
+	protected DListNode<T> current;
 
 	/*
 	 * DList invariants: 1) head != null. 2) For every DListNode x in a DList,
@@ -63,6 +66,7 @@ public class DList<T> extends List<T> {
 		head.next = head;
 		head.prev = head;
 		size = 0;
+		current = head;
 	}
 
 	/**
@@ -261,5 +265,21 @@ public class DList<T> extends List<T> {
 			System.err.println("Caught InvalidNodeException that should not happen.");
 			System.err.println("Aborting the testing code.");
 		}
+	}
+
+	@Override
+	public boolean hasNext() {
+		if(current.next != head){
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public T next() {
+		if (!hasNext())
+            throw new NoSuchElementException();
+		current = current.next;
+		return current.item;
 	}
 }

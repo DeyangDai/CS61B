@@ -14,7 +14,6 @@ public class Chessman {
 	 * @param color
 	 */
 	public Chessman(Move move, int color) {
-		// TODO Auto-generated constructor stub
 		if(move.moveKind == Move.ADD){
 			x = move.x1;
 			y = move.y1;
@@ -22,10 +21,16 @@ public class Chessman {
 		}
 	}
 	
-	public void moveTo(Move move){
+	public void doMove(Move move){
 		if(move.moveKind == Move.STEP){
 			x = move.x1;
 			y = move.y1;
 		}
+	}
+	
+	@Override
+	public String toString() {
+		String string = "[x=" + x + ",y=" + y + "," + color + "]";
+		return string;
 	}
 }
