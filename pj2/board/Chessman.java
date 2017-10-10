@@ -26,6 +26,14 @@ public class Chessman {
 		}
 	}
 	
+	public Coordinate getCoordinate(){
+		return coordinate;
+	}
+	
+	public int getColor(){
+		return color;
+	}
+	
 	public int getX(){
 		return coordinate.x;
 	}

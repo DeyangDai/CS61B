@@ -60,20 +60,22 @@ public class GameBoard {
 	 */
 	private void updateNearbyValidity(Chessman chessman, int moveTpye) {
 		
-		List<Square> nearbySquares = getNearbySquares(chessman, 2);
+		List<Square> nearbySquares = getNearbySquares(chessman.getCoordinate(), 2);
 		
 		while(nearbySquares.hasNext()){
 			
 			Square square = nearbySquares.next();
-			Chessman nearbyChessman;
+			//Chessman nearbyChessman;
 			
-			if(square.chessman != null){
-				nearbyChessman = square.chessman;
+			if(square.getChessman() == null){
+				updateValidityAt(square.getCoordinate(), chessman.color);
+				//nearbyChessman = square.chessman;
 			} else{
 				continue;
 			}
 			
-			if(nearbyChessman.color == chessman.color){
+			
+			/*if(nearbyChessman.color == chessman.color){
 				int type = calculateType(nearbyChessman, chessman);
 				if(moveTpye == Move.ADD){
 					modifyValidity(nearbyChessman, chessman, type, moveTpye);
@@ -81,12 +83,62 @@ public class GameBoard {
 				if(moveTpye == Move.STEP){
 					modifyValidity(nearbyChessman, chessman, type, moveTpye);
 				}
-			}
+			}*/
 			
+		}
+		
+		if(moveTpye == Move.STEP){
+			updateValidityAt(chessman.getCoordinate(), 1 - chessman.color);
 		}
 	}
 
-	private void modifyValidity(Chessman nearbyChessman, Chessman chessman,
+	private void updateValidityAt(Coordinate coordinate, int color) {
+		// TODO Auto-generated method stub
+		List<Square> squares = getNearbySquares(coordinate, 1);
+		
+		List<Square> sameColorSquares = getSameColorSquares(squares, color);
+
+		
+		if(sameColorSquares.length() >= 2){
+			degradeValidityAt(coordinate, color);
+			return;
+		}
+		if(sameColorSquares.length() == 1){
+			Square square = sameColorSquares.next();
+			List<Square> nearbySquares = getNearbySquares(square.getCoordinate(), 1);
+			if(getSameColorSquares(nearbySquares, color).length() >= 1){
+				degradeValidityAt(coordinate, color);
+				return;
+			}
+		}
+		upgradeValidityAt(coordinate, color);
+	}
+
+	private void upgradeValidityAt(Coordinate coordinate, int color) {
+		// TODO Auto-generated method stub
+		Square square = squares[coordinate.getX()][coordinate.getY()];
+		if(square.isEdge()){
+			if(square.getChessman() == null && square.validity == Square.NO_VALID){
+				if(color == Square.BLACK && square.isBlackEdge() || color == Square.WHITE && square.isWhiteEdge()){
+					square.validity = color;
+				}
+			}
+			return;
+		}
+		if(square.getChessman() == null && square.validity == Square.NO_VALID){
+			/*if(color == Square.BLACK && square.isBlackEdge() || color == Square.WHITE && square.isWhiteEdge()){
+
+			} else{
+				return;
+			}*/
+			square.validity = color;
+		}
+		if(square.validity == (1 - color)){
+			square.validity = 2;
+		}
+	}
+
+	/*private void modifyValidity(Chessman nearbyChessman, Chessman chessman,
 								int type, int moveType) {
 		
 		List<Square> squares1 = getNearbySquares(nearbyChessman, 1);
@@ -108,7 +160,7 @@ public class GameBoard {
 		if(result == null){
 			return;
 		}
-
+	
 		while(result.hasNext()){
 			Square square = result.next();
 			modifyValidityAt(square.getX(), square.getY(), chessman.color, moveType);
@@ -117,9 +169,9 @@ public class GameBoard {
 		if(moveType == Move.STEP){
 			modifyValidityAt(chessman.getX(), chessman.getY(), chessman.color, moveType);
 		}
-	}
+	}*/
 	
-	private void modifyValidityAt(int x, int y, int color, int moveType){
+	/*private void modifyValidityAt(int x, int y, int color, int moveType){
 		if(squareExist(x, y)){
 			Square square = squares[x][y];
 			if(moveType == Move.ADD){
@@ -129,19 +181,20 @@ public class GameBoard {
 				upgradeValidity(square, color);
 			}
 		}
-	}
-
-	private void upgradeValidity(Square square, int color) {
+	}*/
+	
+	/*private void upgradeValidity(Square square, int color) {
 		if(square.validity == (1 - color)){
 			square.validity = 2;
 		}
 		if(square.getChessman() == null && square.validity == Square.NO_VALID){
 			square.validity = color;
 		}
-	}
-
-	private void degradeValidity(Square square, int color) {
-		if(square.validity == 2){
+	}*/
+	
+	private void degradeValidityAt(Coordinate coordinate, int color) {
+		Square square = squares[coordinate.getX()][coordinate.getY()];
+		if(square.validity == Square.BOTH_VALID){
 			square.validity = 1 - color;
 		}
 		if(square.validity == color){
@@ -149,7 +202,20 @@ public class GameBoard {
 		}
 	}
 
-	private List<Square> union(Chessman nearbyChessman, List<Square> squares1, Chessman chessman,
+	private List<Square> getSameColorSquares(List<Square> squares, int color) {
+		List<Square> sameColorSquares = new DList<Square>();
+		while(squares.hasNext()){
+			Square square = squares.next();
+			Chessman chessman = square.getChessman();
+			if(null != chessman && chessman.getColor() == color){
+				sameColorSquares.insertBack(square);
+			}
+		}
+		return sameColorSquares;
+	}
+
+
+	/*private List<Square> union(Chessman nearbyChessman, List<Square> squares1, Chessman chessman,
 			List<Square> squares2) {
 		
 		List<Square> result = new DList<Square>();
@@ -175,9 +241,9 @@ public class GameBoard {
 			}
 		}
 		return result;
-	}
+	}*/
 
-	private List<Square> intersect(List<Square> squares1, List<Square> squares2) {
+	/*private List<Square> intersect(List<Square> squares1, List<Square> squares2) {
 		List<Square> result = new DList<Square>();
 		while(squares1.hasNext()){
 			Square square1 = squares1.next();
@@ -189,23 +255,23 @@ public class GameBoard {
 			}
 		}
 		return result;
-	}
+	}*/
 
-	private int calculateType(Chessman nearbyChessman, Chessman chessman) {
+	/*private int calculateType(Chessman nearbyChessman, Chessman chessman) {
 		int deltaX = nearbyChessman.getX() - chessman.getX();
 		int deltaY = nearbyChessman.getY() - chessman.getY();
 		return deltaX * deltaX + deltaY * deltaY;
-	}
+	}*/
 
-	private List<Square> getNearbySquares(Chessman chessman, int layer){
+	private List<Square> getNearbySquares(Coordinate coordinate, int layer){
 		List<Square> list = new DList<Square>();
 		for(int i = -layer; i <= layer; i++){
 			for(int j = -layer; j <= layer; j++){
 				if(i == 0 && j == 0){
 					continue;
 				}
-				if(squareExist(chessman.getX()+i, chessman.getY()+j)){
-					Square square = squares[chessman.getX()+i][chessman.getY()+j];
+				if(squareExist(coordinate.getX()+i, coordinate.getY()+j)){
+					Square square = squares[coordinate.getX()+i][coordinate.getY()+j];
 					list.insertBack(square);
 				}
 			}
@@ -316,8 +382,9 @@ public class GameBoard {
 				
 				//First step, removes the chessman, then updates validity.
 				Chessman chessman = squares[move.x2][move.y2].remove();
-				updateNearbyValidity(chessman, Move.STEP);
-				
+				//updateWholeValidity(color);
+				updateNearbyValidity(chessman, Move.STEP);//STEP类型需要检测该格子的另一种颜色validity，即调用
+														  //即调用updateValidityAt(x,y,anotherColor)
 				//Second step, checks whether the ADD move is valid.
 				Boolean isValid = isValidMove(new Move(move.x1, move.y1), color);
 				
@@ -374,29 +441,27 @@ public class GameBoard {
 	@Override
 	public String toString() {
 		String string = "      SquareValidity         "
-				+ "    ChessmanInfo\r\n";
+				+ "       ChessmanInfo\r\n";
+		string += "  0  1  2  3  4  5  6  7        0  1  2  3  4  5  6  7\r\n";
 		for(int y = 0; y < length; y++){
+			string += y;
 			for(int x = 0; x < length; x++){
 				string += "[" + squares[x][y].getValidity() + "]";
 			}
-			string += "   ";
+			string += y + "    " + y;
 			for(int x = 0; x < length; x++){
-				int color = squares[x][y].color;
+				int color = squares[x][y].state;
 				if(color == Square.BLANK){
 					string += "[" + " " + "]";
 				} else{
-					string += "[" + squares[x][y].color + "]";
+					string += "[" + squares[x][y].state + "]";
 				}
 			}
-			string += "\r\n";
+			string += y + "\r\n";
 		}
-		string += "-------------------------------------"
-				+ "--------------\r\n";
+		string += "  0  1  2  3  4  5  6  7        0  1  2  3  4  5  6  7\r\n";
+		string += "---------------------------------------------------\r\n";
 		return string;
 	}
 
-	public static void main(String[] args) {
-		GameBoard board = new GameBoard();
-		System.out.println(board);
-	}
 }

@@ -2,27 +2,29 @@ package board;
 
 public class Square {
 
-	public static final int BLANK = 2;
-	public static final int WHITE = 1;
 	public static final int BLACK = 0;
+	public static final int WHITE = 1;
+	public static final int BLANK = 2;
+
 	public static final int BLACK_VALID_ONLY = 0;
 	public static final int WHITE_VALID_ONLY = 1;
 	public static final int BOTH_VALID = 2;
 	public static final int NO_VALID = 3;
 	public static final int WALL_NO_VALID = 4;
+	
 	protected int validity;
 	protected Chessman chessman;
-	protected int color;
+	protected int state;
 	protected Coordinate coordinate;
 	
 	public Square(int x, int y){
-		color = BLANK;
+		state = BLANK;
 		validity = NO_VALID;
 		coordinate = new Coordinate(x, y);
 	}
 	
-	public Square(int color, int validity, int x, int y) {
-		this.color = color;
+	public Square(int state, int validity, int x, int y) {
+		this.state = state;
 		this.validity = validity;
 		coordinate = new Coordinate(x, y);
 	}
@@ -43,15 +45,15 @@ public class Square {
 		return chessman;
 	}
 	
-	public void setColor(int color) {
-		this.color = color;
+	protected void setState(int state) {
+		this.state = state;
 	}
 
-	public int getColor(){
-		return color;
+	public int getState(){
+		return state;
 	}
 	
-	public void setValidity(int validity){
+	protected void setValidity(int validity){
 		this.validity = validity;
 	}
 	
@@ -59,23 +61,45 @@ public class Square {
 		return validity;
 	}
 	
-	public void add(Chessman chessman){
+	protected void add(Chessman chessman){
 		this.chessman = chessman;
-		color = chessman.color;
+		state = chessman.color;
 		validity = NO_VALID;
 	}
 	
-	public Chessman remove(){
+	protected Chessman remove(){
 		Chessman temp = chessman;
 		chessman = null;
-		color = BLANK;
+		state = BLANK;
+		validity = temp.getColor();
 		return temp;
 	}
 	
 	@Override
 	public String toString() {
 		String string = "(" + coordinate.x + "," + coordinate.y + ") " 
-						+ "color=" + color + " validity=" + validity; 
+						+ "color=" + state + " validity=" + validity; 
 		return string;
+	}
+
+	public boolean isEdge() {
+		if(isWhiteEdge() || isBlackEdge()){
+			return true;
+		}
+		return false;
+	}
+
+	public boolean isBlackEdge() {
+		if(coordinate.y == 0 || coordinate.y == 7){
+			return true;
+		}
+		return false;
+	}
+
+	public boolean isWhiteEdge() {
+		if(coordinate.x == 0 || coordinate.x == 7){
+			return true;
+		}
+		return false;
 	}
 }

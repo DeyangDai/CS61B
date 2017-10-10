@@ -89,7 +89,175 @@ public class MachinePlayer extends Player {
 		MachinePlayer opponentPlayer = new MachinePlayer(Square.BLACK);
 		machinePlayer.showGameBoard();
 		
-		for(int i = 1; i <= 30; i++){
+		Move machineMove = new Move(1,6);
+		machinePlayer.forceMove(machineMove);
+		System.out.println("machine: " + machineMove);
+		opponentPlayer.opponentMove(machineMove);
+		machinePlayer.showGameBoard();
+		
+		Move opponentMove = new Move(1, 4);
+		opponentPlayer.forceMove(opponentMove);
+		System.out.println("opponent: " + opponentMove);
+		machinePlayer.opponentMove(opponentMove);
+		machinePlayer.showGameBoard();
+		
+		machineMove = new Move(5,1);
+		machinePlayer.forceMove(machineMove);
+		System.out.println("machine: " + machineMove);
+		opponentPlayer.opponentMove(machineMove);
+		machinePlayer.showGameBoard();
+		
+		opponentMove = new Move(2, 5);
+		opponentPlayer.forceMove(opponentMove);
+		System.out.println("opponent: " + opponentMove);
+		machinePlayer.opponentMove(opponentMove);
+		machinePlayer.showGameBoard();
+		
+		machineMove = new Move(5,2);
+		machinePlayer.forceMove(machineMove);
+		System.out.println("machine: " + machineMove);
+		opponentPlayer.opponentMove(machineMove);
+		machinePlayer.showGameBoard();
+		
+		opponentMove = new Move(1,0);
+		opponentPlayer.forceMove(opponentMove);
+		System.out.println("opponent: " + opponentMove);
+		machinePlayer.opponentMove(opponentMove);
+		machinePlayer.showGameBoard();
+		
+		machineMove = new Move(7,4);
+		machinePlayer.forceMove(machineMove);
+		System.out.println("machine: " + machineMove);
+		opponentPlayer.opponentMove(machineMove);
+		machinePlayer.showGameBoard();
+		
+		opponentMove = new Move(4,6);
+		opponentPlayer.forceMove(opponentMove);
+		System.out.println("opponent: " + opponentMove);
+		machinePlayer.opponentMove(opponentMove);
+		machinePlayer.showGameBoard();
+		
+		machineMove = new Move(1,5);
+		machinePlayer.forceMove(machineMove);
+		System.out.println("machine: " + machineMove);
+		opponentPlayer.opponentMove(machineMove);
+		machinePlayer.showGameBoard();
+		
+		opponentMove = new Move(6,7);
+		opponentPlayer.forceMove(opponentMove);
+		System.out.println("opponent: " + opponentMove);
+		machinePlayer.opponentMove(opponentMove);
+		machinePlayer.showGameBoard();
+		
+		machineMove = new Move(3,2);
+		machinePlayer.forceMove(machineMove);
+		System.out.println("machine: " + machineMove);
+		opponentPlayer.opponentMove(machineMove);
+		machinePlayer.showGameBoard();
+		
+		opponentMove = new Move(6,5);
+		opponentPlayer.forceMove(opponentMove);
+		System.out.println("opponent: " + opponentMove);
+		machinePlayer.opponentMove(opponentMove);
+		machinePlayer.showGameBoard();
+		
+		machineMove = new Move(1,1);
+		machinePlayer.forceMove(machineMove);
+		System.out.println("machine: " + machineMove);
+		opponentPlayer.opponentMove(machineMove);
+		machinePlayer.showGameBoard();
+		
+		opponentMove = new Move(6,3);
+		opponentPlayer.forceMove(opponentMove);
+		System.out.println("opponent: " + opponentMove);
+		machinePlayer.opponentMove(opponentMove);
+		machinePlayer.showGameBoard();
+		
+		machineMove = new Move(7,2);
+		machinePlayer.forceMove(machineMove);
+		System.out.println("machine: " + machineMove);
+		opponentPlayer.opponentMove(machineMove);
+		machinePlayer.showGameBoard();
+		
+		opponentMove = new Move(3,1);
+		opponentPlayer.forceMove(opponentMove);
+		System.out.println("opponent: " + opponentMove);
+		machinePlayer.opponentMove(opponentMove);
+		machinePlayer.showGameBoard();
+		
+		machineMove = new Move(5,4);
+		machinePlayer.forceMove(machineMove);
+		System.out.println("machine: " + machineMove);
+		opponentPlayer.opponentMove(machineMove);
+		machinePlayer.showGameBoard();
+		
+		opponentMove = new Move(4,1);
+		opponentPlayer.forceMove(opponentMove);
+		System.out.println("opponent: " + opponentMove);
+		machinePlayer.opponentMove(opponentMove);
+		machinePlayer.showGameBoard();
+		
+		machineMove = new Move(3,3);
+		machinePlayer.forceMove(machineMove);
+		System.out.println("machine: " + machineMove);
+		opponentPlayer.opponentMove(machineMove);
+		machinePlayer.showGameBoard();
+		
+		opponentMove = new Move(6,1);
+		opponentPlayer.forceMove(opponentMove);
+		System.out.println("opponent: " + opponentMove);
+		machinePlayer.opponentMove(opponentMove);
+		machinePlayer.showGameBoard();
+		
+		machineMove = new Move(1,3,1,5);
+		machinePlayer.forceMove(machineMove);
+		System.out.println("machine: " + machineMove);
+		opponentPlayer.opponentMove(machineMove);
+		machinePlayer.showGameBoard();
+		
+		opponentMove = new Move(4,4,4,1);
+		opponentPlayer.forceMove(opponentMove);
+		System.out.println("opponent: " + opponentMove);
+		machinePlayer.opponentMove(opponentMove);
+		machinePlayer.showGameBoard();
+		
+		machineMove = new Move(4,5,1,3);
+		machinePlayer.forceMove(machineMove);
+		System.out.println("machine: " + machineMove);
+		opponentPlayer.opponentMove(machineMove);
+		machinePlayer.showGameBoard();
+		
+		opponentMove = new Move(1,2,2,5);
+		opponentPlayer.forceMove(opponentMove);
+		System.out.println("opponent: " + opponentMove);
+		machinePlayer.opponentMove(opponentMove);
+		machinePlayer.showGameBoard();
+		
+		machineMove = new Move(1,5,5,4);
+		machinePlayer.forceMove(machineMove);
+		System.out.println("machine: " + machineMove);
+		opponentPlayer.opponentMove(machineMove);
+		machinePlayer.showGameBoard();
+		
+		opponentMove = new Move(2,6,6,7);
+		opponentPlayer.forceMove(opponentMove);
+		System.out.println("opponent: " + opponentMove);
+		machinePlayer.opponentMove(opponentMove);
+		machinePlayer.showGameBoard();
+		
+		machineMove = machinePlayer.chooseMove();
+		//machinePlayer.forceMove(machineMove);
+		System.out.println("machine: " + machineMove);
+		opponentPlayer.opponentMove(machineMove);
+		machinePlayer.showGameBoard();
+		
+		opponentMove = opponentPlayer.chooseMove();
+		//opponentPlayer.forceMove(opponentMove);
+		System.out.println("opponent: " + opponentMove);
+		machinePlayer.opponentMove(opponentMove);
+		machinePlayer.showGameBoard();
+		
+		/*for(int i = 1; i <= 30; i++){
 			Move machineMove = machinePlayer.chooseMove();
 			//machinePlayer.forceMove(machineMove);
 			System.out.println( i + ". machine: " + machineMove);
@@ -101,7 +269,7 @@ public class MachinePlayer extends Player {
 			System.out.println( i + ". opponent: " + opponentMove);
 			machinePlayer.opponentMove(opponentMove);
 			machinePlayer.showGameBoard();
-		}
+		}*/
 		
 		/*machinePlayer.forceMove(new Move(1, 2));
 		System.out.println("add(1,2)");
