@@ -246,16 +246,15 @@ public class MachinePlayer extends Player {
 		machinePlayer.showGameBoard();
 		
 		machineMove = machinePlayer.chooseMove();
-		//machinePlayer.forceMove(machineMove);
 		System.out.println("machine: " + machineMove);
 		opponentPlayer.opponentMove(machineMove);
 		machinePlayer.showGameBoard();
 		
 		opponentMove = opponentPlayer.chooseMove();
-		//opponentPlayer.forceMove(opponentMove);
 		System.out.println("opponent: " + opponentMove);
 		machinePlayer.opponentMove(opponentMove);
 		machinePlayer.showGameBoard();
+		
 		
 		/*for(int i = 1; i <= 30; i++){
 			Move machineMove = machinePlayer.chooseMove();
