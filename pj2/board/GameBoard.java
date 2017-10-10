@@ -83,20 +83,6 @@ public class GameBoard {
 				}
 			}
 			
-			
-			/*if(moveTpye == Move.STEP){
-				//TODO
-				Chessman nearbyChessman;
-				if(square.chessman != null){
-					nearbyChessman = square.chessman;
-				} else{
-					continue;
-				}
-				if(nearbyChessman.color == chessman.color){
-					int type = calculateType(nearbyChessman, chessman);
-					degradeValidity(nearbyChessman, chessman, type);
-				}
-			}*/
 		}
 	}
 
@@ -132,99 +118,6 @@ public class GameBoard {
 			modifyValidityAt(chessman.getX(), chessman.getY(), chessman.color, moveType);
 		}
 	}
-
-	/*private void degradeValidity(Chessman nearbyChessman, Chessman chessman, int type) {
-		switch (type) {
-		case 1:
-			degradeValidityType1(nearbyChessman, chessman);
-			break;
-		case 2:
-			degradeValidityType2(nearbyChessman, chessman);
-			break;
-		case 8:
-			degradeValidityType3(nearbyChessman, chessman);
-			break;
-		case 5:
-			degradeValidityType4(nearbyChessman, chessman);
-			break;
-		case 4:
-			degradeValidityType5(nearbyChessman, chessman);
-			break;
-		}
-		
-	}*/
-	
-	/*private void degradeValidityType5(Chessman nearbyChessman, Chessman chessman) {
-		// TODO Auto-generated method stub
-		int x = chessman.x;
-		int y = chessman.y;
-		int x1 = nearbyChessman.x;
-		int y1 = nearbyChessman.y;
-		
-		degradeValidityAt(2*x1-x, 2*y1-y, chessman.color); //1
-		degradeValidityAt(2*x1-x, 2*y1-y, chessman.color); //2
-		degradeValidityAt(2*x1-x, 2*y1-y, chessman.color); //3
-	}*/
-	
-	/*private void degradeValidityType4(Chessman nearbyChessman, Chessman chessman) {
-		// TODO Auto-generated method stub
-		int x = chessman.x;
-		int y = chessman.y;
-		int x1 = nearbyChessman.x;
-		int y1 = nearbyChessman.y;
-		
-		degradeValidityAt(2*x1-x, 2*y1-y, chessman.color); //1
-		degradeValidityAt(2*x1-x, 2*y1-y, chessman.color); //2
-	}*/
-	
-	/*private void degradeValidityType3(Chessman nearbyChessman, Chessman chessman) {
-		int x = chessman.x;
-		int y = chessman.y;
-		int x1 = nearbyChessman.x;
-		int y1 = nearbyChessman.y;
-		
-		degradeValidityAt((x+x1)/2, (y+y1)/2, chessman.color); //1
-	}*/
-	
-	/*private void degradeValidityType2(Chessman nearbyChessman, Chessman chessman) {
-		// TODO Auto-generated method stub
-		int x = chessman.x;
-		int y = chessman.y;
-		int x1 = nearbyChessman.x;
-		int y1 = nearbyChessman.y;
-		
-		degradeValidityAt(2*x1-x, 2*y1-y, chessman.color); //1
-		degradeValidityAt(2*x1-x, 2*y1-y, chessman.color); //2
-		degradeValidityAt(2*x1-x, 2*y1-y, chessman.color); //3
-		degradeValidityAt(2*x1-x, 2*y1-y, chessman.color); //4
-		degradeValidityAt(2*x1-x, 2*y1-y, chessman.color); //5
-		degradeValidityAt(2*x1-x, 2*y1-y, chessman.color); //6
-		degradeValidityAt(2*x1-x, 2*y1-y, chessman.color); //7
-		degradeValidityAt(2*x1-x, 2*y1-y, chessman.color); //8
-		degradeValidityAt(2*x1-x, 2*y1-y, chessman.color); //9
-		degradeValidityAt(2*x1-x, 2*y1-y, chessman.color); //10
-		degradeValidityAt(2*x1-x, 2*y1-y, chessman.color); //11
-		degradeValidityAt(2*x1-x, 2*y1-y, chessman.color); //12
-	}*/
-	
-	/*private void degradeValidityType1(Chessman nearbyChessman, Chessman chessman) {
-		int x = chessman.x;
-		int y = chessman.y;
-		int x1 = nearbyChessman.x;
-		int y1 = nearbyChessman.y;
-		
-		degradeValidityAt(2*x1-x, 2*y1-y, chessman.color); //1
-		degradeValidityAt(x-y+y1, y-x1+x, chessman.color); //2
-		degradeValidityAt(2*x-x1, 2*y-y1, chessman.color); //3
-		degradeValidityAt(x1-y+y1, y1-x1+x, chessman.color); //4
-		degradeValidityAt(x1+y-y1, y1+x1-x, chessman.color); //5
-		degradeValidityAt(x+y-y1, y+x1-x, chessman.color); //6
-		degradeValidityAt(2*x1-x+y-y1, 2*y1-y+x1-x, chessman.color); //7
-		degradeValidityAt(2*x1-x-y+y1, 2*y1-y-x1+x, chessman.color); //8
-		degradeValidityAt(2*x+y-y1-x1, 2*y+x1-x-y1, chessman.color); //9
-		degradeValidityAt(2*x-x1-y+y1, 2*y-y1-x1+x, chessman.color); //10
-		
-	}*/
 	
 	private void modifyValidityAt(int x, int y, int color, int moveType){
 		if(squareExist(x, y)){
@@ -376,7 +269,6 @@ public class GameBoard {
 			}
 		}
 		if (getCount(color) == 10) {
-			// TODO
 			List<Chessman> chessmen = getChessmen(color);
 			while(chessmen.hasNext()){
 				Chessman chessman = chessmen.next();
@@ -409,25 +301,31 @@ public class GameBoard {
 	public boolean isValidMove(Move move, int color) {
 		if (nextColor == color) {
 			switch (move.moveKind) {
+			
 			case Move.ADD:
 				Square newPosition = squares[move.x1][move.y1];
 				if(newPosition.validity == Square.BOTH_VALID || newPosition.validity == color){
 					return true;
 				}
 				return false;
+			
 			case Move.STEP:
 				if(move.x1 == move.x2 && move.y1 == move.y2){
 					return false;
 				}
+				
 				//First step, removes the chessman, then updates validity.
 				Chessman chessman = squares[move.x2][move.y2].remove();
 				updateNearbyValidity(chessman, Move.STEP);
+				
 				//Second step, checks whether the ADD move is valid.
 				Boolean isValid = isValidMove(new Move(move.x1, move.y1), color);
+				
 				//Third step, puts the chessman back, then updates validity.
 				squares[move.x2][move.y2].add(chessman);
 				updateNearbyValidity(chessman, Move.ADD);
 				return isValid;
+			
 			case Move.QUIT:
 				// TODO
 				return false;
