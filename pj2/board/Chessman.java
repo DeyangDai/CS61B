@@ -5,8 +5,7 @@ import player.Move;
 public class Chessman {
 	
 	int color;
-	int x;
-	int y;
+	Coordinate coordinate;
 	
 	/**
 	 * constructs a Chessman by move whose moveKind == Move.ADD.
@@ -15,22 +14,29 @@ public class Chessman {
 	 */
 	public Chessman(Move move, int color) {
 		if(move.moveKind == Move.ADD){
-			x = move.x1;
-			y = move.y1;
+			coordinate = new Coordinate(move.x1, move.y1);
 			this.color = color;
 		}
 	}
 	
 	public void doMove(Move move){
 		if(move.moveKind == Move.STEP){
-			x = move.x1;
-			y = move.y1;
+			coordinate.x = move.x1;
+			coordinate.y = move.y1;
 		}
+	}
+	
+	public int getX(){
+		return coordinate.x;
+	}
+
+	public int getY(){
+		return coordinate.y;
 	}
 	
 	@Override
 	public String toString() {
-		String string = "[x=" + x + ",y=" + y + "," + color + "]";
+		String string = "[x=" + coordinate.x + ",y=" + coordinate.y + "," + color + "]";
 		return string;
 	}
 }

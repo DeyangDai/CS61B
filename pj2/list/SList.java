@@ -268,6 +268,7 @@ public class SList<T> extends List<T> {
 		if(current.next != null){
 			return true;
 		}
+		current = head;
 		return false;
 	}
 

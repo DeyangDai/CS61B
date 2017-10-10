@@ -13,15 +13,34 @@ public class Square {
 	protected int validity;
 	protected Chessman chessman;
 	protected int color;
+	protected Coordinate coordinate;
 	
-	public Square(){
+	public Square(int x, int y){
 		color = BLANK;
 		validity = NO_VALID;
+		coordinate = new Coordinate(x, y);
 	}
 	
-	public Square(int color, int validity) {
+	public Square(int color, int validity, int x, int y) {
 		this.color = color;
 		this.validity = validity;
+		coordinate = new Coordinate(x, y);
+	}
+
+	public int getX(){
+		return coordinate.x;
+	}
+	
+	public int getY(){
+		return coordinate.y;
+	}
+	
+	public Coordinate getCoordinate() {
+		return coordinate;
+	}
+
+	public Chessman getChessman(){
+		return chessman;
 	}
 	
 	public void setColor(int color) {
@@ -55,7 +74,8 @@ public class Square {
 	
 	@Override
 	public String toString() {
-		String string = "color = " + color + " validity = " + validity; 
-		return super.toString();
+		String string = "(" + coordinate.x + "," + coordinate.y + ") " 
+						+ "color=" + color + " validity=" + validity; 
+		return string;
 	}
 }

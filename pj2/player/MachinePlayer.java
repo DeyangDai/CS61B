@@ -4,7 +4,6 @@ package player;
 
 import board.GameBoard;
 import board.Square;
-import list.InvalidNodeException;
 import list.List;
 
 /**
@@ -35,7 +34,7 @@ public class MachinePlayer extends Player {
 		board = new GameBoard();
 	}
 
-	private void showGameBoard(){
+	public void showGameBoard(){
 		System.out.print(board);
 	}
 
@@ -44,13 +43,19 @@ public class MachinePlayer extends Player {
 	public Move chooseMove() {
 		// TODO
 		List<Move> moves = board.getValidMoves(color);
+		int movesSize = moves.length();
+		int random = (int) (Math.random() * movesSize + 1);
 		Move bestMove = null;
-		try {
-			bestMove = moves.front().item();
-		} catch (InvalidNodeException e) {
-			e.printStackTrace();
+		int count = 0;
+		while(moves.hasNext()){
+			Move move = moves.next();
+			count++;
+			if(count == random){
+				bestMove = move;
+				break;
+			}
 		}
-		board.updateBoard(bestMove, color);
+		//board.updateBoard(bestMove, color);
 		return bestMove;
 	}
 
@@ -81,16 +86,40 @@ public class MachinePlayer extends Player {
 
 	public static void main(String[] args) {
 		MachinePlayer machinePlayer = new MachinePlayer(Square.WHITE);
+		MachinePlayer opponentPlayer = new MachinePlayer(Square.BLACK);
 		machinePlayer.showGameBoard();
 		
-		machinePlayer.forceMove(new Move(0, 1));
-		System.out.println("add(0,1)");
-		machinePlayer.showGameBoard();
+		for(int i = 1; i <= 15; i++){
+			Move machineMove = machinePlayer.chooseMove();
+			machinePlayer.forceMove(machineMove);
+			System.out.println("machine: " + machineMove);
+			opponentPlayer.opponentMove(machineMove);
+			machinePlayer.showGameBoard();
+			
+			Move opponentMove = opponentPlayer.chooseMove();
+			opponentPlayer.forceMove(opponentMove);
+			System.out.println("opponent: " + opponentMove);
+			machinePlayer.opponentMove(opponentMove);
+			machinePlayer.showGameBoard();
+		}
 		
-		machinePlayer.forceMove(new Move(1, 2));
+		/*machinePlayer.forceMove(new Move(1, 2));
 		System.out.println("add(1,2)");
 		machinePlayer.showGameBoard();
 		
+		machinePlayer.forceMove(new Move(1, 1));
+		System.out.println("add(1,1)");
+		machinePlayer.showGameBoard();
 		
+		machinePlayer.forceMove(new Move(2, 3));
+		System.out.println("add(2,3)");
+		machinePlayer.showGameBoard();
+		
+		machinePlayer.forceMove(new Move(3, 2));
+		System.out.println("add(3,2)");
+		machinePlayer.showGameBoard();
+		
+		machinePlayer.forceMove(machinePlayer.chooseMove());
+		machinePlayer.showGameBoard();*/
 	}
 }

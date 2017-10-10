@@ -272,6 +272,7 @@ public class DList<T> extends List<T> {
 		if(current.next != head){
 			return true;
 		}
+		current = head;
 		return false;
 	}
 
