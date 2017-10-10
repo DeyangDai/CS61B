@@ -55,7 +55,7 @@ public class MachinePlayer extends Player {
 				break;
 			}
 		}
-		//board.updateBoard(bestMove, color);
+		board.updateBoard(bestMove, color);
 		return bestMove;
 	}
 
@@ -89,16 +89,16 @@ public class MachinePlayer extends Player {
 		MachinePlayer opponentPlayer = new MachinePlayer(Square.BLACK);
 		machinePlayer.showGameBoard();
 		
-		for(int i = 1; i <= 15; i++){
+		for(int i = 1; i <= 30; i++){
 			Move machineMove = machinePlayer.chooseMove();
-			machinePlayer.forceMove(machineMove);
-			System.out.println("machine: " + machineMove);
+			//machinePlayer.forceMove(machineMove);
+			System.out.println( i + ". machine: " + machineMove);
 			opponentPlayer.opponentMove(machineMove);
 			machinePlayer.showGameBoard();
 			
 			Move opponentMove = opponentPlayer.chooseMove();
-			opponentPlayer.forceMove(opponentMove);
-			System.out.println("opponent: " + opponentMove);
+			//opponentPlayer.forceMove(opponentMove);
+			System.out.println( i + ". opponent: " + opponentMove);
 			machinePlayer.opponentMove(opponentMove);
 			machinePlayer.showGameBoard();
 		}

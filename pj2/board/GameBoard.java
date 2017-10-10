@@ -416,12 +416,15 @@ public class GameBoard {
 				}
 				return false;
 			case Move.STEP:
-				//先拿走棋子，更新validity
+				if(move.x1 == move.x2 && move.y1 == move.y2){
+					return false;
+				}
+				//First step, removes the chessman, then updates validity.
 				Chessman chessman = squares[move.x2][move.y2].remove();
 				updateNearbyValidity(chessman, Move.STEP);
-				//再看新坐标下棋子的validity
+				//Second step, checks whether the ADD move is valid.
 				Boolean isValid = isValidMove(new Move(move.x1, move.y1), color);
-				//放回棋子，更新validity
+				//Third step, puts the chessman back, then updates validity.
 				squares[move.x2][move.y2].add(chessman);
 				updateNearbyValidity(chessman, Move.ADD);
 				return isValid;
