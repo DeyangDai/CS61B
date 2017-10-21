@@ -2,6 +2,8 @@
 
 package list;
 
+import java.util.LinkedList;
+
 /**
  * An SListNode is a mutable node in an SList (singly-linked list).
  **/

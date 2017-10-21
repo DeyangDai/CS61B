@@ -2,17 +2,17 @@ package board;
 
 import player.Move;
 
-public class Chessman {
+public class Chip {
 	
 	int color;
 	Coordinate coordinate;
 	
 	/**
-	 * constructs a Chessman by move whose moveKind == Move.ADD.
+	 * constructs a Chip by move whose moveKind == Move.ADD.
 	 * @param move
 	 * @param color
 	 */
-	public Chessman(Move move, int color) {
+	public Chip(Move move, int color) {
 		if(move.moveKind == Move.ADD){
 			coordinate = new Coordinate(move.x1, move.y1);
 			this.color = color;

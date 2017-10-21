@@ -3,14 +3,16 @@ package board;
 import list.List;
 import player.Move;
 
+import java.util.Arrays;
+
 import list.DList;
 
 public class GameBoard {
 
-	private Square[][] squares;
+	protected Square[][] squares;
 	private int nextColor = Square.WHITE; // white first.
-	private List<Chessman> blackChessmen;
-	private List<Chessman> whiteChessmen;
+	private List<Chip> blackChip;
+	private List<Chip> whiteChip;
 	private int length; // GameBoard is a length * length chess box,
 						// and contains Square[length][length].
 
@@ -20,8 +22,8 @@ public class GameBoard {
 
 	public GameBoard(int length) {
 		this.length = length;
-		blackChessmen = new DList<Chessman>();
-		whiteChessmen = new DList<Chessman>();
+		blackChip = new DList<Chip>();
+		whiteChip = new DList<Chip>();
 		initBoard();
 	}
 
@@ -29,7 +31,7 @@ public class GameBoard {
 		squares = new Square[length][length];
 		for (int x = 0; x < length; x++) {
 			for (int y = 0; y < length; y++) {
-				squares[x][y] = new Square(Square.BLANK, Square.WALL_NO_VALID, x, y);
+				squares[x][y] = new Square(Square.BLANK, Square.DEAD, x, y);
 				if( 0 < x && x < length-1 && 0 < y && y < length-1){	//inner squares
 					squares[x][y].setValidity(Square.BOTH_VALID);
 				} else{
@@ -44,21 +46,221 @@ public class GameBoard {
 		}
 	}
 	
-	private List<Square> findConnections(Square square) {
-		// TODO
+	public List<Square> findConnections(Square square) {
+		if(square.getChip() == null){
+			return null;
+		}
+		List<Square> result = new DList<>();
+		Square squareResult;
+		/*int x = square.getX();
+		int y = square.getY();*/
+		
+		for(DirectionEnum each:DirectionEnum.values()){
+			squareResult = findConnection(each, square);
+			if(squareResult != null){
+				result.insertBack(squareResult);
+			}
+		}
+		
+		/*if(x > 0 && x < length - 1){
+			squareResult = findConnection(DirectionEnum.NORTH, square);
+			if(squareResult != null){
+				result.insertBack(squareResult);
+			}
+			
+			squareResult = findConnection(DirectionEnum.SOUTH, square);
+			if(squareResult != null){
+				result.insertBack(squareResult);
+			}
+		}
+		
+		if(y > 0 && y < length - 1){
+			squareResult = findConnection(DirectionEnum.WEST, square);
+			if(squareResult != null){
+				result.insertBack(squareResult);
+			}
+			
+			squareResult = findConnection(DirectionEnum.EAST, square);
+			if(squareResult != null){
+				result.insertBack(squareResult);
+			}
+		}
+		
+		squareResult = findConnection(DirectionEnum.NE, square);
+		if(squareResult != null){
+			result.insertBack(squareResult);
+		}
+		
+		squareResult = findConnection(DirectionEnum.NW, square);
+		if(squareResult != null){
+			result.insertBack(squareResult);
+		}
+		
+		squareResult = findConnection(DirectionEnum.SE, square);
+		if(squareResult != null){
+			result.insertBack(squareResult);
+		}
+		
+		squareResult = findConnection(DirectionEnum.SW, square);
+		if(squareResult != null){
+			result.insertBack(squareResult);
+		}*/
+		
+		return result;
+	}
+
+	private Square findConnection(DirectionEnum directionEnum, Square square) {
+		int x = square.getX();
+		int y = square.getY();
+		
+		switch (directionEnum) {
+		case NORTH:
+			if(x == 0 || x == length -1){
+				return null;
+			}
+			for(y -= 1; y >= 0; y--){
+				if(!squareExist(x, y)){
+					return null;
+				}
+				Square square2 = squares[x][y];
+				if(square2.getState() == 1 - square.getState()){
+					return null;
+				}
+				if(square2.getState() == square.getState()){
+					return square2;
+				}
+			}
+			break;
+			
+		case SOUTH:
+			if(x == 0 || x == length -1){
+				return null;
+			}
+			for(y += 1; y < length ; y++){
+				if(!squareExist(x, y)){
+					return null;
+				}
+				Square square2 = squares[x][y];
+				if(square2.getState() == 1 - square.getState()){
+					return null;
+				}
+				if(square2.getState() == square.getState()){
+					return square2;
+				}
+			}
+			break;
+		
+		case WEST:
+			if(y == 0 || y == length -1){
+				return null;
+			}
+			for(x -= 1; x >= 0 ; x--){
+				if(!squareExist(x, y)){
+					return null;
+				}
+				Square square2 = squares[x][y];
+				if(square2.getState() == 1 - square.getState()){
+					return null;
+				}
+				if(square2.getState() == square.getState()){
+					return square2;
+				}
+			}
+			break;
+			
+		case EAST:
+			if(y == 0 || y == length -1){
+				return null;
+			}
+			for(x += 1; x < length ; x++){
+				if(!squareExist(x, y)){
+					return null;
+				}
+				Square square2 = squares[x][y];
+				if(square2.getState() == 1 - square.getState()){
+					return null;
+				}
+				if(square2.getState() == square.getState()){
+					return square2;
+				}
+			}
+			break;
+		
+		case NE:
+			for(x += 1, y -= 1; x < length && y >= 0; x++, y--){
+				if(!squareExist(x, y)){
+					return null;
+				}
+				Square square2 = squares[x][y];
+				if(square2.getState() == 1 - square.getState()){
+					return null;
+				}
+				if(square2.getState() == square.getState()){
+					return square2;
+				}
+			}
+			break;
+			
+		case NW:
+			for(x -= 1, y -= 1; x >= 0 && y >= 0; x--, y--){
+				if(!squareExist(x, y)){
+					return null;
+				}
+				Square square2 = squares[x][y];
+				if(square2.getState() == 1 - square.getState()){
+					return null;
+				}
+				if(square2.getState() == square.getState()){
+					return square2;
+				}
+			}
+			break;
+			
+		case SE:
+			for(x += 1, y += 1; x < length && y < length; x++, y++){
+				if(!squareExist(x, y)){
+					return null;
+				}
+				Square square2 = squares[x][y];
+				if(square2.getState() == 1 - square.getState()){
+					return null;
+				}
+				if(square2.getState() == square.getState()){
+					return square2;
+				}
+			}
+			break;
+			
+		case SW:
+			for(x -= 1, y += 1; x >= 0 && y < length; x--, y++){
+				if(!squareExist(x, y)){
+					return null;
+				}
+				Square square2 = squares[x][y];
+				if(square2.getState() == 1 - square.getState()){
+					return null;
+				}
+				if(square2.getState() == square.getState()){
+					return square2;
+				}
+			}
+			break;
+		}
+		
 		return null;
 	}
 
-	private boolean hasNetwork() {
+	
+	public boolean hasNetwork() {
 		// TODO
 		return false;
 	}
-
+	
 	/**
 	 * updates the validity of two layers near the chessman.
 	 * @param chessman
 	 */
-	private void updateNearbyValidity(Chessman chessman, int moveTpye) {
+	private void updateNearbyValidity(Chip chessman, int moveTpye) {
 		
 		List<Square> nearbySquares = getNearbySquares(chessman.getCoordinate(), 2);
 		
@@ -66,7 +268,7 @@ public class GameBoard {
 			
 			Square square = nearbySquares.next();
 			
-			if(square.getChessman() == null){
+			if(square.getChip() == null){
 				updateValidityAt(square.getCoordinate(), chessman.color);
 			} else{
 				continue;
@@ -102,14 +304,14 @@ public class GameBoard {
 	private void upgradeValidityAt(Coordinate coordinate, int color) {
 		Square square = squares[coordinate.getX()][coordinate.getY()];
 		if(square.isEdge()){
-			if(square.getChessman() == null && square.validity == Square.NO_VALID){
+			if(square.getChip() == null && square.validity == Square.NO_VALID){
 				if(color == Square.BLACK && square.isBlackEdge() || color == Square.WHITE && square.isWhiteEdge()){
 					square.validity = color;
 				}
 			}
 			return;
 		}
-		if(square.getChessman() == null && square.validity == Square.NO_VALID){
+		if(square.getChip() == null && square.validity == Square.NO_VALID){
 			square.validity = color;
 		}
 		if(square.validity == (1 - color)){
@@ -131,7 +333,7 @@ public class GameBoard {
 		List<Square> sameColorSquares = new DList<Square>();
 		while(squares.hasNext()){
 			Square square = squares.next();
-			Chessman chessman = square.getChessman();
+			Chip chessman = square.getChip();
 			if(null != chessman && chessman.getColor() == color){
 				sameColorSquares.insertBack(square);
 			}
@@ -167,12 +369,12 @@ public class GameBoard {
 		return false;
 	}
 
-	private void listAdd(Chessman chessman) {
+	private void listAdd(Chip chessman) {
 		if (chessman.color == Square.BLACK) {
-			blackChessmen.insertBack(chessman);
+			blackChip.insertBack(chessman);
 		}
 		if (chessman.color == Square.WHITE) {
-			whiteChessmen.insertBack(chessman);
+			whiteChip.insertBack(chessman);
 		}
 	}
 
@@ -191,11 +393,11 @@ public class GameBoard {
 	}
 
 	public int getWhiteCount() {
-		return whiteChessmen.length();
+		return whiteChip.length();
 	}
 
 	public int getBlackCount() {
-		return blackChessmen.length();
+		return blackChip.length();
 	}
 
 	public List<Move> getValidMoves(int color) {
@@ -211,9 +413,9 @@ public class GameBoard {
 			}
 		}
 		if (getCount(color) == 10) {
-			List<Chessman> chessmen = getChessmen(color);
+			List<Chip> chessmen = getChessmen(color);
 			while(chessmen.hasNext()){
-				Chessman chessman = chessmen.next();
+				Chip chessman = chessmen.next();
 				for (int x = 0; x < length; x++) {
 					for (int y = 0; y < length; y++) {
 						Move stepMove = new Move(x, y, chessman.getX(), chessman.getY());
@@ -228,11 +430,11 @@ public class GameBoard {
 	
 	}
 
-	public List<Chessman> getChessmen(int color) {
+	public List<Chip> getChessmen(int color) {
 		if(color == Square.BLACK)
-			return blackChessmen;
+			return blackChip;
 		if(color == Square.WHITE)
-			return whiteChessmen;
+			return whiteChip;
 		return null;
 	}
 
@@ -256,20 +458,19 @@ public class GameBoard {
 					return false;
 				}
 				
-				//First step, removes the chessman, then updates validity.
-				Chessman chessman = squares[move.x2][move.y2].remove();
+				//First step, removes the chip, then updates validity.
+				Chip chessman = squares[move.x2][move.y2].remove();
 				updateNearbyValidity(chessman, Move.STEP);
 				
 				//Second step, checks whether the ADD move is valid.
 				Boolean isValid = isValidMove(new Move(move.x1, move.y1), color);
 				
-				//Third step, puts the chessman back, then updates validity.
+				//Third step, puts the chip back, then updates validity.
 				squares[move.x2][move.y2].add(chessman);
 				updateNearbyValidity(chessman, Move.ADD);
 				return isValid;
 			
 			case Move.QUIT:
-				// TODO
 				return false;
 			}
 		}
@@ -287,10 +488,10 @@ public class GameBoard {
 	 *            is the color of the Move m, 0 == black, 1 == white.
 	 */
 	public void updateBoard(Move move, int color) {
-		Chessman chessman = null;
+		Chip chessman = null;
 		switch (move.moveKind) {
 		case Move.ADD:
-			chessman = new Chessman(move, color);
+			chessman = new Chip(move, color);
 			this.listAdd(chessman);
 			break;
 		case Move.STEP:
@@ -299,7 +500,6 @@ public class GameBoard {
 			chessman.doMove(move);
 			break;
 		case Move.QUIT:
-			// TODO
 			return;
 		}
 		squares[move.x1][move.y1].add(chessman);
@@ -316,7 +516,7 @@ public class GameBoard {
 	@Override
 	public String toString() {
 		String string = "      SquareValidity         "
-				+ "       ChessmanInfo\r\n";
+				+ "          ChipInfo\r\n";
 		string += "  0  1  2  3  4  5  6  7        0  1  2  3  4  5  6  7\r\n";
 		
 		for(int y = 0; y < length; y++){

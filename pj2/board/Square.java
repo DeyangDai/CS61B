@@ -2,19 +2,21 @@ package board;
 
 public class Square {
 
+	//state
 	public static final int BLACK = 0;
 	public static final int WHITE = 1;
 	public static final int BLANK = 2;
 
+	//validity
 	public static final int BLACK_VALID_ONLY = 0;
 	public static final int WHITE_VALID_ONLY = 1;
 	public static final int BOTH_VALID = 2;
 	public static final int NO_VALID = 3;
-	public static final int WALL_NO_VALID = 4;
+	public static final int DEAD = 4;
 	
-	protected int validity;
-	protected Chessman chessman;
 	protected int state;
+	protected int validity;
+	protected Chip chip;
 	protected Coordinate coordinate;
 	
 	public Square(int x, int y){
@@ -41,8 +43,8 @@ public class Square {
 		return coordinate;
 	}
 
-	public Chessman getChessman(){
-		return chessman;
+	public Chip getChip(){
+		return chip;
 	}
 	
 	protected void setState(int state) {
@@ -61,15 +63,15 @@ public class Square {
 		return validity;
 	}
 	
-	protected void add(Chessman chessman){
-		this.chessman = chessman;
-		state = chessman.color;
+	protected void add(Chip chip){
+		this.chip = chip;
+		state = chip.color;
 		validity = NO_VALID;
 	}
 	
-	protected Chessman remove(){
-		Chessman temp = chessman;
-		chessman = null;
+	protected Chip remove(){
+		Chip temp = chip;
+		chip = null;
 		state = BLANK;
 		validity = temp.getColor();
 		return temp;
