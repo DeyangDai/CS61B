@@ -1,0 +1,30 @@
+Most of your work will be implementing chooseMove().  You will be implementing
+the minimax algorithm for searching game trees, described in Lecture 17.
+A game tree is a mapping of all possible moves you can make, and all possible
+responses by your opponent, and all possible responses by you, and so on to a
+specified "search depth."  You will NOT need to implement a tree data
+structure; a "game tree" is the structure of a set of recursive method calls.
+
+
+Assign an intermediate score to a board where neither player has completed a
+network.  One of the most important but difficult parts of implementing game
+search is inventing a board evaluation function that reliably evaluates these
+intermediate boards.  For example, a rough evaluation function might count how
+many pairs of your chips can see each other, and subtract the opponent's pairs.
+A slightly better evaluation function would also try to establish at least one
+chip in each goal early in the game.  I leave you to your own wits to improve
+upon these ideas.
+
+
+You should assign a slightly higher score to a win in one move than to a win in
+three moves, which should get a higher score than a win in five moves, and so
+on.  Otherwise, your MachinePlayer might always choose the win in three over
+the win in one, move after move, and never get around to actually winning.
+
+
+You will need to invent an algorithm that determines whether a player has a
+winning network.  A good place to look for clues is Section 13.3 of Goodrich
+and Tamassia, which describes depth-first search in graphs.  It's not quite
+what you need for the job, but close enough that you'll be able to modify it.
+This is the hardest part of the whole project, so assign it to your smartest
+teammate and START EARLY!!!
